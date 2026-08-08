@@ -4,6 +4,8 @@ import 'dotenv/config';
 import connectDB from './config/db.js';
 import authRouter from './routes/authRoutes.js';
 import rankRouter from './routes/rankRoutes.js';
+import analysisRouter from './routes/analysisRoutes.js';
+import { startRankTrackingCron } from './cron/rankTrackingCron.js';
 
 const app = express();
 
@@ -17,6 +19,10 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRouter);
 app.use('/api/rank', rankRouter);
+app.use('/api/analysis', analysisRouter);
+
+// start CRON jobs
+startRankTrackingCron();
 
 const startServer = async () => {
   try {
